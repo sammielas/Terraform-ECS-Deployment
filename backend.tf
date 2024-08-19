@@ -1,7 +1,7 @@
 # store the terraform state file in s3 and lock with dynamodb
 terraform {
   backend "s3" {
-    bucket         = "sammielas88-terraform-remote-state"
+    bucket         = "sammielas-terraform-remote-state"
     key            = "rentzone-ecs/terrafrom.tfstate"
     region         = "us-east-1"
     dynamodb_table = "terraform-state-lock"

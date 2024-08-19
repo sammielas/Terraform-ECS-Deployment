@@ -1,7 +1,7 @@
 # create an auto scaling group for the ecs service
 resource "aws_appautoscaling_target" "ecs_asg" {
-  max_capacity       =4 
-  min_capacity       =1 
+  max_capacity       = 4
+  min_capacity       = 1
   resource_id        = "service/${var.project_name}-${var.environment}-cluster/${var.project_name}-${var.environment}-service"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
@@ -16,7 +16,7 @@ resource "aws_appautoscaling_policy" "ecs_policy" {
   resource_id        = "service/${var.project_name}-${var.environment}-cluster/${var.project_name}-${var.environment}-service"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
-  
+
   target_tracking_scaling_policy_configuration {
 
     predefined_metric_specification {

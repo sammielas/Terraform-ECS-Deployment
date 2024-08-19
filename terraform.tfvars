@@ -17,8 +17,8 @@ ssh_location = "0.0.0.0/0"
 
 # S3 variables
 env_file_bucket_name = "sammielas-env-file-bucket"
-env_file_name ="rentzone.env"
+env_file_name        = "rentzone.env"
 
 # ecs variables
-architecture = "X86_64"
+architecture    = "X86_64"
 container_image = ""
