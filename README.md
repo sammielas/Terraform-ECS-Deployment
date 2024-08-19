@@ -1,6 +1,6 @@
 # Rentzone Application on AWS with Terraform, Docker, Amazon ECR, and ECS
 
-This README file provides detailed instructions on how to deploy a rentzone app which is a dynamic web application on Amazon Web Services (AWS) using Terraform, Docker, Amazon Elastic Container Registry (ECR), and Elastic Container Service (ECS). The steps outlined below will guide you through the entire process, from setting up your AWS environment to deploying your application using Terraform.
+This README file provides detailed instructions on how to deploy rentzone app which is a dynamic web application on Amazon Web Services (AWS) using Terraform, Docker, Amazon Elastic Container Registry (ECR), and Elastic Container Service (ECS). The steps outlined below will guide you through the entire process, from setting up your AWS environment to deploying your application using Terraform.
 
 ## Prerequisites
 
