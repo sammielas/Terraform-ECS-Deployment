@@ -16,6 +16,7 @@ resource "aws_lb_target_group" "aws_lb_target_group" {
   port     = 80
   protocol = "HTTP"
   vpc_id   = aws_vpc.vpc.id
+  target_type = "ip"  # Set to 'ip' for awsvpc network mode
 
   health_check {
     interval            = 30

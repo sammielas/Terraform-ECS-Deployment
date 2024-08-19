@@ -21,7 +21,7 @@ env_file_name        = "rentzone.env"
 
 # ecs variables
 architecture    = "X86_64"
-container_image = ""
+container_image = "583727125603.dkr.ecr.us-east-1.amazonaws.com/rentzone:latest"
 
 //rds variables
 database_instance_class      = "db.t3.micro"
