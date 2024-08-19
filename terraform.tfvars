@@ -29,3 +29,7 @@ database_instance_identifier = "applicationdb"
 multi_az_deployment          = "false"
 db_username                  = "sammielas"
 db_password                  = "Olatunj1*"
+
+//acm variables
+domain_name       = "sammielas.com"
+alternative_names = "*.sammielas.com"
