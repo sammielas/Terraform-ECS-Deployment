@@ -79,3 +79,22 @@ variable "container_image" {
   type        = string
 }
 
+variable "database_instance_class" {
+  description = "db instance class"
+  type        = string
+}
+
+variable "database_instance_identifier" {
+  description = "database instance identifier"
+  type        = string
+}
+
+variable "multi_az_deployment" {
+
+}
+variable "db_username" {
+
+}
+variable "db_password" {
+
+}

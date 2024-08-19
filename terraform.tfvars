@@ -22,3 +22,10 @@ env_file_name        = "rentzone.env"
 # ecs variables
 architecture    = "X86_64"
 container_image = ""
+
+//rds variables
+database_instance_class      = "db.t3.micro"
+database_instance_identifier = "applicationdb"
+multi_az_deployment          = "false"
+db_username                  = "sammielas"
+db_password                  = "Olatunj1*"
