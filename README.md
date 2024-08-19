@@ -137,4 +137,4 @@ This README file provides detailed instructions on how to deploy rentzone app wh
 
 ## Conclusion
 
-Following these steps, you will have successfully deployed a dynamic web application on AWS using Terraform, Docker, Amazon ECR, and ECS. You can manage and scale your infrastructure as code, ensuring a consistent and repeatable deployment process.
+Following these steps, you will have successfully deployed the rentzone application on AWS using Terraform, Docker, Amazon ECR, and ECS. You can manage and scale your infrastructure as code, ensuring a consistent and repeatable deployment process.
