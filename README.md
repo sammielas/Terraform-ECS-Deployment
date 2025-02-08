@@ -1,14 +1,8 @@
 # Rentzone Application Deployment on AWS
 
-- **Visibility**: Public  
-A dynamic web application deployed on AWS using Terraform, Docker, ECR, and ECS. The project focuses on automating infrastructure setup and deployment for scalability and reliability.
+## **Project Overview**
+The Rentzone application is a dynamic web application deployed on **Amazon Web Services (AWS)** using **Terraform, Docker, Amazon Elastic Container Registry (ECR), and Elastic Container Service (ECS)**. This guide outlines the steps required to set up the infrastructure and deploy the application efficiently.
 
-- **Primary Language**: HCL (Terraform), Python (optional for scripting)  
-- **Complexity/Key Features**:  
-  - Multi-tier architecture with VPC, ECS, RDS, ALB, and S3.  
-  - Infrastructure as Code (Terraform) for automated provisioning.  
-  - Container orchestration with ECS Fargate.  
-  - Secure IAM roles, SSL certificates, and auto-scaling.  
 ---
 
 ## **Architecture**
@@ -166,4 +160,3 @@ terraform apply -auto-approve
 3. Optimize **cost efficiency** with Spot Instances.
 
 By following these steps, you will have successfully deployed the Rentzone application on AWS using **Terraform, Docker, Amazon ECR, and ECS**.
-
