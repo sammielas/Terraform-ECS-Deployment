@@ -1,84 +1,73 @@
-# Rentzone Application on AWS with Terraform, Docker, Amazon ECR, and ECS
+# Rentzone Application Deployment on AWS
 
-This README file provides detailed instructions on how to deploy rentzone app which is a dynamic web application on Amazon Web Services (AWS) using Terraform, Docker, Amazon Elastic Container Registry (ECR), and Elastic Container Service (ECS). The steps outlined below will guide you through the entire process, from setting up your AWS environment to deploying your application using Terraform.
+## **Project Overview**
+The Rentzone application is a dynamic web application deployed on **Amazon Web Services (AWS)** using **Terraform, Docker, Amazon Elastic Container Registry (ECR), and Elastic Container Service (ECS)**. This guide outlines the steps required to set up the infrastructure and deploy the application efficiently.
 
-## Architecture 
-![Architecture Diagram](images/rentzone-diagram.png)  
+---
 
-## Prerequisites
+## **Architecture**
+![Architecture Diagram](images/rentzone-diagram.png)
 
+---
+
+## **Technologies Used**
+- **Cloud Provider**: AWS
+- **Infrastructure as Code**: Terraform
+- **Containerization**: Docker
+- **Orchestration**: ECS with Fargate
+- **Storage**: Amazon S3
+- **Networking**: VPC, Subnets, Security Groups
+- **Security & IAM**: IAM Roles and Policies
+- **Load Balancing**: Application Load Balancer (ALB)
+- **Database**: Amazon RDS
+
+---
+
+## **Prerequisites**
 - AWS Account
 - AWS CLI installed on your local machine
 - Terraform installed on your local machine
 - Docker installed on your local machine
 - Git installed on your local machine
 
-## Steps
+---
 
-### 1. Create an IAM User on AWS
+## **Project Structure**
+```bash
+rentzone-infra/
+├── modules/
+│   ├── vpc/                        # Terraform module for VPC
+│   ├── ecs/                        # Terraform module for ECS cluster and services
+│   ├── rds/                        # Terraform module for database setup
+│   ├── alb/                        # Terraform module for Load Balancer
+├── scripts/
+│   ├── deploy.sh                    # Shell script for deployment automation
+├── .gitignore
+└── README.md                        # Project documentation
+```
 
+---
+
+## **Setup Instructions**
+
+### **1. Create an IAM User on AWS**
 1. Log in to the AWS Management Console.
 2. Navigate to **IAM (Identity and Access Management)**.
-3. Create a new IAM user with `Programmatic access` and assign the required permissions (e.g., `AdministratorAccess` for development purposes).
+3. Create a new IAM user with `Programmatic access`.
+4. Assign the required permissions (e.g., `AdministratorAccess` for development purposes).
+5. Generate an Access Key and Secret Key and save them securely.
 
-### 2. Generate an Access Key for the IAM User
+### **2. Configure AWS CLI with IAM Credentials**
+```bash
+aws configure --profile <profile-name>
+```
+Enter the Access Key ID, Secret Key, default region, and output format when prompted.
 
-1. After creating the IAM user, generate an access key.
-2. Save the Access Key ID and Secret Access Key securely as you'll need them to configure the AWS CLI.
-
-### 3. Create a Named Profile for the IAM User
-
-1. Open your terminal.
-2. Run the following command to configure your AWS credentials:
-   ```bash
-   aws configure --profile <profile-name>
-   ```
-3. Enter the Access Key ID, Secret Access Key, default region, and output format when prompted.
-
-### 4. Store Terraform State with S3 Bucket
-
-1. Create an S3 bucket on AWS to store your Terraform state file.
-2. Enable versioning on the bucket to maintain the history of your state files.
-
-### 5. Create a DynamoDB Table to Lock Terraform State
-
-1. Navigate to **DynamoDB** in the AWS Management Console.
-2. Create a new table to be used for state locking. Set `LockID` as the primary key.
-
-### 6. Create and Clone a Git Repository for Storing Terraform Modules
-
-1. If you don't already have a repository for your Terraform modules, create one.
-2. Clone the repository to your local machine:
-   ```bash
-   git clone <repository-url>
-   ```
-
-### 7. Create Terraform Module for VPC
-
-1. Inside the cloned repository, create a directory for your VPC module.
-2. Define the necessary Terraform configurations for creating a VPC with public and private subnets.
-
-### 8. Create Another Repository for the Project Application
-
-1. Create a separate repository for your application that will be deployed on AWS.
-2. Clone the repository to your local machine:
-   ```bash
-   git clone <repository-url>
-   ```
-
-### 9. Configure AWS Provider in Terraform
-
-1. In your Terraform project, configure the AWS provider to establish a connection between Terraform and AWS:
-   ```hcl
-   provider "aws" {
-     region  = "<region>"
-     profile = "<profile-name>"
-   }
-   ```
-
-### 10. Create a Terraform Backend
-
-1. Configure Terraform to use the S3 bucket for state storage and DynamoDB for state locking:
+### **3. Set Up Terraform Backend with S3 & DynamoDB**
+1. Create an **S3 bucket** to store Terraform state files.
+2. Enable **versioning** on the bucket.
+3. Create a **DynamoDB table** with `LockID` as the primary key to handle state locking.
+4. Configure the backend in Terraform:
    ```hcl
    terraform {
      backend "s3" {
@@ -90,54 +79,85 @@ This README file provides detailed instructions on how to deploy rentzone app wh
    }
    ```
 
-### 11. Create a VPC with Public and Private Subnets
+### **4. Clone the Terraform Infrastructure Repository**
+```bash
+git clone <repository-url>
+cd rentzone-infra
+```
 
-1. Use the VPC module to create a VPC with public and private subnets across two different availability zones (AZs).
+### **5. Create a VPC with Public and Private Subnets**
+Define a Terraform module for a VPC with subnets across multiple availability zones (AZs).
 
-### 12. Create a NAT Gateway
+### **6. Set Up Networking Components**
+- Create a **NAT Gateway** for private subnets.
+- Configure **Security Groups** for the application and database.
 
-1. In the public subnet, create a NAT gateway to allow instances in the private subnet to access the internet.
+### **7. Deploy an RDS Database**
+Use Terraform to create an Amazon RDS instance or restore from a previous snapshot.
 
-### 13. Create Security Groups
+### **8. Request and Configure ACM SSL Certificates**
+1. Use Terraform to request **ACM (AWS Certificate Manager)** SSL certificates.
+2. Attach the SSL certificate to the **Application Load Balancer (ALB)**.
 
-1. Define the necessary security groups for your application, database, and other AWS resources.
+### **9. Set Up the Application Load Balancer**
+Use Terraform to deploy an **ALB** and associate it with the VPC subnets.
 
-### 14. Create an RDS Database
+### **10. Deploy an Amazon S3 Bucket for Application Storage**
+Create an **S3 bucket** for storing application assets.
 
-1. Use Terraform to create a new RDS instance or restore one from a previous snapshot.
+### **11. Set Up ECS Cluster and Services**
+- Create an ECS **Cluster**.
+- Define **Task Definitions** for the application containers.
+- Deploy an **ECS Service** that runs the application.
 
-### 15. Request ACM Certificates
+### **12. Implement Auto Scaling for ECS Services**
+Configure an **Auto Scaling Group** to dynamically adjust the number of running containers.
 
-1. Use Terraform to request an ACM (AWS Certificate Manager) SSL certificate for your domain.
+### **13. Push Docker Images to Amazon ECR**
+1. Authenticate Docker with ECR:
+   ```bash
+   aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <aws-account-id>.dkr.ecr.<region>.amazonaws.com
+   ```
+2. Build and tag the Docker image:
+   ```bash
+   docker build -t rentzone-app .
+   docker tag rentzone-app:latest <aws-account-id>.dkr.ecr.<region>.amazonaws.com/rentzone-app:latest
+   ```
+3. Push the image to ECR:
+   ```bash
+   docker push <aws-account-id>.dkr.ecr.<region>.amazonaws.com/rentzone-app:latest
+   ```
 
-### 16. Set Up SSL Certificates
+### **14. Create a Route 53 DNS Record**
+- Create a DNS record in **AWS Route 53** pointing to the Application Load Balancer.
 
-1. Attach the SSL certificates to the appropriate AWS resources, such as the Application Load Balancer (ALB).
+### **15. Deploy Infrastructure with Terraform**
+```bash
+terraform init
+terraform apply -auto-approve
+```
 
-### 17. Create an Application Load Balancer
+---
 
-1. Use Terraform to create an Application Load Balancer and associate it with your subnets.
+## **Testing the Deployment**
+1. Verify ECS tasks are running in the AWS Management Console.
+2. Check **CloudWatch Logs** for application logs.
+3. Open the application URL in a browser.
 
-### 18. Create an S3 Bucket for the Application
+---
 
-1. Create an S3 bucket to store any assets or files needed by your application.
+## **What We Learned**
+1. Infrastructure as Code with **Terraform**.
+2. Secure **IAM Roles & Policies** for AWS services.
+3. **Container orchestration** with ECS & Fargate.
+4. Implementing **CI/CD for cloud-native applications**.
 
-### 19. Create Task Execution Role for ECS Service
+---
 
-1. Define a task execution role in IAM that the ECS service can assume to pull images and execute tasks.
+## **Future Enhancements**
+1. Add **monitoring and alerts** using AWS CloudWatch and SNS.
+2. Implement **blue/green deployment** with ECS.
+3. Optimize **cost efficiency** with Spot Instances.
 
-### 20. Create Terraform Module for ECS Cluster, Task Definition, and Service
+By following these steps, you will have successfully deployed the Rentzone application on AWS using **Terraform, Docker, Amazon ECR, and ECS**.
 
-1. Create and configure Terraform modules for your ECS Cluster, Task Definition, and Service.
-
-### 21. Create Auto Scaling Group and Connect to ECS Service
-
-1. Set up an Auto Scaling group to ensure your ECS tasks scale based on demand.
-
-### 22. Create a Route 53 DNS Record for Your Application
-
-1. Create a Route 53 DNS record to point to your Application Load Balancer.
-
-## Conclusion
-
-Following these steps, you will have successfully deployed the rentzone application on AWS using Terraform, Docker, Amazon ECR, and ECS. You can manage and scale your infrastructure as code, ensuring a consistent and repeatable deployment process.
